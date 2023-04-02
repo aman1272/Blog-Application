@@ -56,13 +56,13 @@ const Author = styled(Box)(({ theme }) => ({
 
 const DetailView = () => {
     const url = 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
-    
+
     const [post, setPost] = useState({});
     const { account } = useContext(DataContext);
 
     const navigate = useNavigate();
     const { id } = useParams();
-    
+
     useEffect(() => {
         const fetchData = async () => {
             let response = await API.getPostById(id);
@@ -73,8 +73,8 @@ const DetailView = () => {
         fetchData();
     }, []);
 
-    const deleteBlog = async () => {  
-        // await API.deletePost(post._id);
+    const deleteBlog = async (id) => {
+        // await API.deletePost(id);
         console.log("delete api call")
         navigate('/')
     }
@@ -83,11 +83,11 @@ const DetailView = () => {
         <Container>
             <Image src={post.picture || url} alt="post" />
             <Box style={{ float: 'right' }}>
-                {   
-                    account.username === post.username && 
-                    <>  
+                {
+                    account.username === post.username &&
+                    <>
                         <Link to={`/update/${post._id}`}><EditIcon color="primary" /></Link>
-                        <DeleteIcon onClick={() => deleteBlog()} color="error" />
+                        <DeleteIcon onClick={() => deleteBlog(post._id)} color="error" />
                     </>
                 }
             </Box>
@@ -95,9 +95,9 @@ const DetailView = () => {
 
             <Author>
                 <Link to={`/?username=${post.username}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography>Author: <span style={{fontWeight: 600}}>{post.username}</span></Typography>
+                    <Typography>Author: <span style={{ fontWeight: 600 }}>{post.username}</span></Typography>
                 </Link>
-                <Typography style={{marginLeft: 'auto'}}>{new Date(post.createdDate).toDateString()}</Typography>
+                <Typography style={{ marginLeft: 'auto' }}>{new Date(post.createdDate).toDateString()}</Typography>
             </Author>
 
             <Typography>{post.description}</Typography>

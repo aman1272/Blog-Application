@@ -46,6 +46,8 @@ const Comments = ({ post }) => {
             const response = await API.getAllComments(post._id);
             if (response.isSuccess) {
                 setComments(response.data);
+            }else{
+                console.log("api failed")
             }
         }
         getData();

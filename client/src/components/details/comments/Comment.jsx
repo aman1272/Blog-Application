@@ -35,10 +35,11 @@ const DeleteIcon = styled(Delete)`
 const Comment = ({ comment, setToggle }) => {
 
     const { account } = useContext(DataContext)
-    
-    const removeComment = async () => {
-       await API.deleteComment(comment._id);
-       setToggle(prev => !prev);
+
+    const removeComment = async (id) => {
+        // await API.deleteComment(id);
+        // setToggle(prev => !prev);
+        console.log("remove comment function call")
     }
 
     return (
@@ -46,7 +47,7 @@ const Comment = ({ comment, setToggle }) => {
             <Container>
                 <Name>{comment.name}</Name>
                 <StyledDate>{new Date(comment.date).toDateString()}</StyledDate>
-                { comment.name === account.username && <DeleteIcon onClick={() => removeComment()} /> }
+                {comment.name === account.username && <DeleteIcon onClick={() => removeComment(comment._id)} />}
             </Container>
             <Typography>{comment.comments}</Typography>
         </Component>
